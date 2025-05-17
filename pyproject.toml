@@ -5,7 +5,7 @@ description = "My personal plotnine theme package."
 readme = "README.md"
 authors = [{name = "Paul Saary", email = "github@paulsaary.de"}]
 license = "Apache-2.0"
-requires-python = ">=3.8"
+requires-python = ">=3.10"
 classifiers = []
 dependencies = [
     "click",
