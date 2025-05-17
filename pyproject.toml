@@ -1,6 +1,6 @@
 [project]
 name = "p9customtheme"
-version = "0.0.1"
+version = "0.1.0"
 description = "My personal plotnine theme package."
 readme = "README.md"
 authors = [{name = "Paul Saary", email = "github@paulsaary.de"}]
