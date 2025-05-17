@@ -13,13 +13,13 @@ BASELINE_IMAGES = LOCAL_FOLDER / "baseline"
 def ggplot_equals(plot: ggplot, name: str) -> bool:
     reference = BASELINE_IMAGES / f"{name}.png"
     if not reference.exists():
-        plot.save(reference)
+        plot.save(reference, verbose=False)
         raise FileNotFoundError(
             f"Reference image {reference} does not exist, this is now the new reference! Check it and rerun"
         )
     with tempfile.TemporaryDirectory() as tmpdirname:
         tmpfile = Path(tmpdirname) / "test.png"
-        plot.save(tmpfile)
+        plot.save(tmpfile, verbose=False)
         return compare_images(str(reference), str(tmpfile), tol=1e-3) is None
 
 
