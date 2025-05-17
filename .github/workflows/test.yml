@@ -12,20 +12,20 @@ jobs:
       matrix:
         python-version: ["3.10", "3.11", "3.12"]
     steps:
-    - uses: actions/checkout@v4
-    - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v5
-      with:
-        python-version: ${{ matrix.python-version }}
-        cache: pip
-        cache-dependency-path: pyproject.toml
-    - name: Install dependencies
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y fonts-roboto
-        python -c "import matplotlib; matplotlib.font_manager._rebuild()"
-        pip install '.[test]'
-    - name: Run tests
-      run: |
-        python -m pytest
+      - uses: actions/checkout@v4
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+          cache-dependency-path: pyproject.toml
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y fonts-roboto
+          pip install '.[test]'
+          python -c "import matplotlib; matplotlib.font_manager._rebuild()"
 
+      - name: Run tests
+        run: |
+          python -m pytest
