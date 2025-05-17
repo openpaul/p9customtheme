@@ -55,7 +55,7 @@ To contribute to this tool, first checkout the code. Then create a new virtual e
 ```bash
 cd p9customtheme
 uv venv
-source venv/bin/activate
+source ./venv/bin/activate
 ```
 
 Now install the dependencies and test dependencies:
@@ -64,8 +64,8 @@ Now install the dependencies and test dependencies:
 uv pip install -e '.[test]'
 ```
 
-To run the tests:
+Before any PR ensure the tests as passing with:
 
 ```bash
-pytest
+pytest .
 ```
