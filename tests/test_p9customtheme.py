@@ -1,12 +1,16 @@
+import pandas as pd
 import plotnine as p9
 import polars as pl
 from plotnine.data import mtcars, penguins
 
 from p9customtheme import custom_discrete, custom_theme
+from p9customtheme.utils import to_pandas_categories
 
 
 def test_simple_plot():
     p = p9.ggplot(mtcars, p9.aes("wt", "mpg")) + p9.geom_point()
+    if p != "test_simple_plot":
+        p.save("tests/baseline/test_simple_plot_fail.png", verbose=False)
     assert p == "test_simple_plot"
 
 
@@ -23,6 +27,8 @@ def test_boxplot():
             fill="Island",
         )
     )
+    if p != "boxplot_simple":
+        p.save("tests/baseline/boxplot_simple_fail.png", verbose=False)
 
     assert p == "boxplot_simple"
 
@@ -38,6 +44,8 @@ def test_colors():
         + custom_discrete()
         + p9.scale_y_continuous(expand=(0, 0))
     )
+    if p != f"colors_{colors_n}":
+        p.save(f"tests/baseline/colors_{colors_n}_fail.png", verbose=False)
     assert p == f"colors_{colors_n}"
 
 
@@ -53,6 +61,8 @@ def test_scatter_colors():
         )
         + custom_discrete()
     )
+    if p != "scatter_colors":
+        p.save("tests/baseline/scatter_colors_fail.png", verbose=False)
     assert p == "scatter_colors"
 
 
@@ -71,13 +81,15 @@ def test_grid():
         + p9.theme(panel_border=p9.element_rect(color="black"))
         + custom_theme(base_size=9.5)
     )
+    if p != "grid_plot":
+        p.save("tests/baseline/grid_plot_fail.png", verbose=False)
     assert p == "grid_plot"
 
 
 def test_complex_grid():
     p = (
         p9.ggplot(
-            (
+            to_pandas_categories(
                 pl.DataFrame(penguins.dropna())
                 .with_columns(pl.col("body_mass_g") / 1000)
                 .group_by(["species", "year", "sex"])
@@ -97,9 +109,26 @@ def test_complex_grid():
         )
         + custom_theme(rotate_label=90)
         + p9.theme(
-            figure_size=(3, 4),
+            figure_size=(5, 6),
             plot_title=p9.element_text(ha="center"),
         )
         + custom_discrete(reverse=True)
     )
+    if p != "grid_complex_plot":
+        p.save("tests/baseline/grid_complex_plot_fail.png", verbose=False)
     assert p == "grid_complex_plot"
+
+
+def test_to_pandas_categories():
+    df = (
+        pl.DataFrame(penguins.dropna())
+        .with_columns(pl.col("body_mass_g") / 1000)
+        .group_by(["species", "year", "sex"])
+        .agg(pl.col("body_mass_g").mean())
+        .with_columns(pl.col("year").cast(pl.String))
+    )
+    pdf = to_pandas_categories(df)
+    assert isinstance(pdf, pd.DataFrame)
+
+    assert pdf["species"].dtype.name == "category"
+    assert len(pdf["species"].cat.categories) == 3
