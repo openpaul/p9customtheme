@@ -1,3 +1,4 @@
+import matplotlib.font_manager as fm
 from plotnine import (
     element_blank,
     element_line,
@@ -13,6 +14,15 @@ from .settings import (
 )
 
 
+def _check_if_font_exists(font: str, verbose: bool = False) -> bool:
+    available_fonts = [f.name for f in fm.fontManager.ttflist]
+    found = font in available_fonts
+    if verbose:
+        if not found:
+            print(f"Font '{font}' NOT found")
+    return found
+
+
 class custom_theme(theme_bw):
     def __init__(
         self,
@@ -20,7 +30,16 @@ class custom_theme(theme_bw):
         base_family: str | list[str] = ["Roboto", "sans-serif"],
         rotate_label: int = 0,
         legend_position: str = "outside",
+        verbose: bool = False,
     ):
+        # for all fonts check if they are available
+        if isinstance(base_family, str):
+            base_family = [base_family]
+        base_family = [
+            f for f in base_family if _check_if_font_exists(f, verbose=verbose)
+        ]
+        if len(base_family) == 0:
+            base_family = ["sans-serif"]
         super().__init__(int(base_size), base_family)
 
         self += theme(

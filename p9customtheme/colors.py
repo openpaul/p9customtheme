@@ -1,3 +1,6 @@
+import plotnine as p9
+import polars as pl
+
 from .types import MetPalette
 
 # scales taken from https://github.com/BlakerMills/MetBrewer/ CC0
@@ -655,3 +658,36 @@ MET_PALETTES: dict[str, MetPalette] = dict(
         colorblind=False,
     ),
 )
+
+
+def _all_colors() -> p9.ggplot:
+    """
+    Make a tile plot showing off all palettes
+    """
+
+    colors_list = []
+    for palette_name, palette in MET_PALETTES.items():
+        for i, color in enumerate(palette["colors"]):
+            colors_list.append(
+                {
+                    "palette": palette_name,
+                    "index": i,
+                    "color": color,
+                    "colorblind": palette["colorblind"],
+                }
+            )
+    cdf = pl.DataFrame(colors_list)
+
+    return (
+        p9.ggplot(cdf)
+        + p9.aes(x="index", y="palette", fill="color")
+        + p9.geom_tile()
+        + p9.scale_fill_identity()
+        + p9.facet_wrap("~colorblind", ncol=2, scales="free_y")
+        + p9.labs(title="MetBrewer Palettes", x="", y="")
+        + p9.theme(
+            figure_size=(4, 8),
+            axis_ticks=p9.element_blank(),
+            axis_text_x=p9.element_blank(),
+        )
+    )

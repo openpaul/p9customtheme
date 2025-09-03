@@ -13,6 +13,7 @@ from .settings import (
     LIGHT_GRAY,
 )
 from .theme import custom_theme
+from .colors import _all_colors as show_all_colors  # noqa: F401
 
 geoms.geom_point.DEFAULT_AES["shape"] = "o"
 geoms.geom_point.DEFAULT_AES["size"] = 2
@@ -31,3 +32,10 @@ theme_set(custom_theme())
 set_option("dpi", DEFAULT_DPI)
 set_option("figure_size", (DEFAULT_WIDTH, DEFAULT_HEIGHT))
 set_option("figure_format", "svg")
+
+
+__all__ = (
+    "custom_theme",
+    "custom_discrete",
+    "show_all_colors",
+)
