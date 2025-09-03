@@ -1,9 +1,10 @@
 import logging
 import random
+
 from plotnine.scales import scale_fill_manual
-from .logging import logger
 
 from .colors import MET_PALETTES
+from .logging import logger
 from .types import MetPalette
 
 

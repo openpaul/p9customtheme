@@ -4,6 +4,7 @@ from plotnine import (
 )
 from plotnine.options import set_option
 
+from .colors import _all_colors as show_all_colors  # noqa: F401
 from .scales import custom_discrete  # noqa: F401
 from .settings import (
     DARK_GRAY,
@@ -13,7 +14,6 @@ from .settings import (
     LIGHT_GRAY,
 )
 from .theme import custom_theme
-from .colors import _all_colors as show_all_colors  # noqa: F401
 
 geoms.geom_point.DEFAULT_AES["shape"] = "o"
 geoms.geom_point.DEFAULT_AES["size"] = 2
