@@ -95,6 +95,7 @@ def test_complex_grid():
                 .group_by(["species", "year", "sex"])
                 .agg(pl.col("body_mass_g").mean())
                 .with_columns(pl.col("year").cast(pl.String))
+                .sort(["species", "year", "sex"])
             ),
             mapping=p9.aes(x="year", y="sex", size="body_mass_g", fill="species"),
         )
