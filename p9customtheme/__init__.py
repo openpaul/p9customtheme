@@ -31,7 +31,6 @@ geoms.geom_histogram.DEFAULT_AES["fill"] = LIGHT_GRAY
 theme_set(custom_theme())
 set_option("dpi", DEFAULT_DPI)
 set_option("figure_size", (DEFAULT_WIDTH, DEFAULT_HEIGHT))
-set_option("figure_format", "svg")
 
 
 __all__ = (
